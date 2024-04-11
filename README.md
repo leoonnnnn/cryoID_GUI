@@ -42,3 +42,7 @@ python3 main_cryoID_experimental.py
 - :sleeping:low prio/cosmetic: polish up the GUI and modernize the look, rounded buttons, button icons, etc. (found some tutorials with nice looking designs that I'll check out later)
 - :scream:semi-high prio: figure out how to implement a "save" progress feature (Like say it's taking too long to run and you wanna pause it to free up resources to do something else). Use the pickle module? Would have to look at the actual ML code. <br>
 edit: Qibo said he already implemented an autosave feature, so just figure out how to add that to the GUI.
+
+
+
+EDIT: no longer using search_pool.py or search_support.py

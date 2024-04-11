@@ -1,6 +1,5 @@
 import sys, os
 import subprocess
-from pathlib import Path
 from PyQt5 import QtWidgets as qtw
 from PyQt5 import QtCore as qtc
 from PyQt5 import QtGui as qtg
@@ -12,8 +11,7 @@ codec = QTextCodec.codecForName("UTF-8")
 #from cryoID_v2_2 import Ui_cryoID
 #from cryoID_v2_3 import Ui_cryoID
 #from cryoID_v2_4 import Ui_cryoID
-#from cryoID_v2_exp import Ui_cryoID
-from cryoID_v2_exp_FPV import Ui_cryoID
+from cryoID_v2_exp import Ui_cryoID
 # alternatively for the import, could skip the python file and just use the ui file (check tutorial for steps)
 
 
@@ -44,23 +42,18 @@ class MainWindow(qtw.QMainWindow):
         #self.ui.gen_queries_button.clicked.connect(self.get_queries)
         #self.ui.search_pool_button.clicked.connect(self.search_pool)
         self.ui.actionChimeraX.triggered.connect(self.open_chimerax)
-        self.ui.checkBox.toggled.connect(self.open_chimerax)
         self.ui.abort_button.clicked.connect(self.abortjob)
 
-        # # testing new placeholder function (printing custom message when button is clicked)
-        # self.ui.run_button.clicked.connect(lambda: self.placeholder_fxn('run button'))
-        # self.ui.abort_button.clicked.connect(lambda: self.placeholder_fxn('abort button'))
-
-        # testing 2nd placeholder function (print name of button clicked), also helps during development
-        self.ui.run_button.clicked.connect(self.placeholder_fxn_2)
-        self.ui.abort_button.clicked.connect(self.placeholder_fxn_2)
+        self.ui.save_button.clicked.connect(self.testfxn)
 
         # Your code ends here
-        #self.set_up_body()
         self.show()
 
         self.setStyleSheet("QToolTip { color: white; background-color: gray; border: 1px; }")
         self.statusBar().showMessage('[Error messages go here]', 5000)
+
+    def testfxn(self):
+        self.process.start("calculator.py")
 
     def show_dialog(self):
         pass
@@ -166,6 +159,7 @@ class MainWindow(qtw.QMainWindow):
         # print("get_queries_v2.py", get_queries_argu)
         print(get_queries_argu)
         #self.process.start("get_queries_v1_1.py", get_queries_argu)
+        self.process.start("calculator.py")
         print("started?")
 
     # bound to search_pool
@@ -218,150 +212,9 @@ class MainWindow(qtw.QMainWindow):
             self.statusBar().showMessage(f'Editing {filename}')
 
     def open_chimerax(self):
-        #subprocess.check_call(r"C:\Program Files\ChimeraX\bin\ChimeraX.exe")        #further research needed to decide which to use
-        subprocess.check_call(r"C:\Program Files\ChimeraX\bin\ChimeraX.exe emd_13737_normalized.mrc")      #ok shit works
+        subprocess.check_call(r"C:\Program Files\ChimeraX\bin\ChimeraX.exe")        #further research needed to decide which to use
         #subprocess.call(r"C:\Program Files\ChimeraX\bin\ChimeraX.exe")
         #os.startfile(r"C:\Program Files\ChimeraX\bin\ChimeraX.exe")
-
-    def placeholder_fxn(self, name):     # rename this variable to msg
-        # prints message passed from signal, which can be custom set (currently just the name of the button)
-        print(name)   # to pycharm command line
-        self.statusBar().showMessage(name + " clicked", 2000)   # to the gui
-
-    def placeholder_fxn_2(self, name):
-        # prints name of signal connected to this slot (ie the name of the button clicked)
-        sender = self.sender()
-        senderName = sender.objectName()
-        print(senderName)   # to pycharm command line
-        self.statusBar().showMessage(senderName + " clicked", 2000)    # to the gui
-
-    def set_up_body(self):
-
-        # Body
-        body_frame = qtw.QFrame()
-        body_frame.setFrameShape(qtw.QFrame.NoFrame)
-        body_frame.setFrameShadow(qtw.QFrame.Plain)
-        body_frame.setLineWidth(0)
-        body_frame.setMidLineWidth(0)
-        body_frame.setContentsMargins(0, 0, 0, 0)
-        body_frame.setSizePolicy(qtw.QSizePolicy.Expanding, qtw.QSizePolicy.Expanding)
-        body = qtw.QHBoxLayout()
-        body.setContentsMargins(0, 0, 0, 0)
-        body.setSpacing(0)
-        body_frame.setLayout(body)
-
-        # side_bar
-        self.side_bar = qtw.QFrame()
-        self.side_bar.setFrameShape(qtw.QFrame.StyledPanel)
-        self.side_bar.setFrameShadow(qtw.QFrame.Plain)
-        self.side_bar.setStyleSheet(f'''
-            background-color: black;
-        ''')
-        side_bar_layout = qtw.QHBoxLayout()
-        side_bar_layout.setContentsMargins(5, 10, 5, 0)
-        side_bar_layout.setSpacing(0)
-        side_bar_layout.setAlignment(qtc.Qt.AlignTop | qtc.Qt.AlignCenter)
-
-        # setup labels
-        folder_label = qtw.QLabel()
-        folder_label.setPixmap(qtg.QPixmap("./src/icons/folder-icon-blue.svg").scaled(qtc.QSize(25, 25)))
-        folder_label.setAlignment(qtc.Qt.AlignmentFlag.AlignTop)
-        #folder_label.setFont(self.window_font)
-        folder_label.mousePressEvent = self.show_hide_tab
-        side_bar_layout.addWidget(folder_label)
-        self.side_bar.setLayout(side_bar_layout)
-
-        body.addWidget(self.side_bar)
-
-        # split view
-        self.hsplit = qtw.QSplitter(qtc.Qt.Horizontal)
-
-        # frame and layout to hold tree view (file manager)
-        self.tree_frame = qtw.QFrame()
-        self.tree_frame.setLineWidth(1)
-        self.tree_frame.setMaximumWidth(400)
-        self.tree_frame.setMinimumWidth(200)
-        self.tree_frame.setBaseSize(100, 0)
-        self.tree_frame.setContentsMargins(0, 0, 0, 0)
-        tree_frame_layout = qtw.QVBoxLayout()
-        tree_frame_layout.setContentsMargins(0, 0, 0, 0)
-        tree_frame_layout.setSpacing(0)
-        self.tree_frame.setStyleSheet('''
-            QFrame {
-                background-color: #21252b;
-                border-radius: 5px;
-                border: none;
-                padding: 5px;
-                color: #D3D3D3;
-            }
-            QFrame:hover {
-                color: white;
-            }
-        ''')
-
-        # Create file system model to show in tree view
-        self.model = qtw.QFileSystemModel()
-        self.model.setRootPath(os.getcwd())
-        # File system filters
-        self.model.setFilter(qtc.QDir.NoDotAndDotDot | qtc.QDir.AllDirs | qtc.QDir.Files)
-
-        # Tree View
-        self.tree_view = qtw.QTreeView()
-        self.tree_view.setFont(qtg.QFont("FiraCode", 13))
-        self.tree_view.setModel(self.model)
-        self.tree_view.setRootIndex(self.model.index(os.getcwd()))
-        self.tree_view.setSelectionMode(qtw.QTreeView.SingleSelection)
-        self.tree_view.setSelectionBehavior(qtw.QTreeView.SelectRows)
-        self.tree_view.setEditTriggers(qtw.QTreeView.NoEditTriggers)
-        # add custom context menu
-        self.tree_view.setContextMenuPolicy(qtc.Qt.CustomContextMenu)
-        self.tree_view.customContextMenuRequested.connect(self.tree_view_context_menu)
-        # handling click
-        self.tree_view.clicked.connect(self.tree_view_clicked)
-        self.tree_view.setIndentation(10)
-        self.tree_view.setSizePolicy(qtw.QSizePolicy.Expanding, qtw.QSizePolicy.Expanding)
-         # Hide header and hide other columns except for name
-        self.tree_view.setHeaderHidden(True) # hiding header
-        self.tree_view.setColumnHidden(1, True)
-        self.tree_view.setColumnHidden(2, True)
-        self.tree_view.setColumnHidden(3, True)
-
-        # setup layout
-        tree_frame_layout.addWidget(self.tree_view)
-        self.tree_frame.setLayout(tree_frame_layout)
-
-
-        # Tab Widget to add editor to
-        self.tab_view = qtw.QTabWidget()
-        self.tab_view.setContentsMargins(0, 0, 0, 0)
-        self.tab_view.setTabsClosable(True)
-        self.tab_view.setMovable(True)
-        self.tab_view.setDocumentMode(True)
-        # self.tab_view.tabsClos
-
-        # add tree view and tab view
-        self.hsplit.addWidget(self.tree_frame)
-        self.hsplit.addWidget(self.tab_view)
-
-
-        body.addWidget(self.hsplit)
-        body_frame.setLayout(body)
-
-
-        self.setCentralWidget(body_frame)
-
-    def show_hide_tab(self):
-        ...
-
-    def tree_view_context_menu(self, pos):
-        ...
-
-
-    def tree_view_clicked(self, index: qtc.QModelIndex):
-        path = self.model.filePath(index)
-        p = Path(path)
-        self.set_new_tab(p)
-
 
 if __name__ == '__main__':
     app = qtw.QApplication(sys.argv)
