@@ -32,7 +32,6 @@ python3 main_cryoID_developmental.py
 ## TODOs for myself
 - maybe rename the files
     - change main_cryoID.py to main_cryoID_gui.py
-- clean up imports in main
 - displaying file tree in sidebar (only got it working in a separate file, still working on integrating it)
     - replace the checkboxes in the sidebar with the file tree. some functionality might change but should be pretty quick modifications
 
