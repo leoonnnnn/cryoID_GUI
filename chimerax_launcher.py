@@ -50,6 +50,7 @@ def launch_chimerax(files=None):
         # Launch ChimeraX
         subprocess.Popen(command)          # NOTE: need to read more to see if call, check_call, or Popen is best for our use case
         print("ChimeraX launched successfully.")
+        # print("launched with these files: ", command[1::])    # for debugging
     except Exception as e:
         print("Error launching ChimeraX:", e)
 
