@@ -38,9 +38,9 @@ class MainWindow(qtw.QMainWindow):
         # >>> stuff from OG cryoID <<<
         self.process = qtc.QProcess(self)   # QProcess object for external programs
 
-        self.ui.actionChimeraX.triggered.connect(self.open_chimerax)
-        self.ui.view_in_chimera_button.clicked.connect(self.open_chimerax)
-        #self.ui.checkBox.toggled.connect(self.open_chimerax)     # TODO: change this so that when toggled, it adds or removes the corresponding file from the list or queue of files to open in chimerax
+        self.ui.actionChimeraX.triggered.connect(launch_chimerax)
+        self.ui.view_in_chimera_button.clicked.connect(launch_chimerax)
+        #self.ui.checkBox.toggled.connect(launch_chimerax)     # TODO: change this so that when toggled, it adds or removes the corresponding file from the list or queue of files to open in chimerax
         self.ui.abort_button.clicked.connect(self.abortjob)
 
         # # testing new placeholder function (printing custom message when button is clicked)
@@ -212,17 +212,6 @@ class MainWindow(qtw.QMainWindow):
             self.textedit.insertPlainText(text)
             self.textedit.moveCursor(qtg.QTextCursor.Start)
             self.statusBar().showMessage(f'Editing {filename}')
-
-    def open_chimerax(self):
-        # 3 dif ways to open files (prob more)
-        #subprocess.check_call(r"C:\Program Files\ChimeraX\bin\ChimeraX.exe")        #further research needed to decide which to use
-        #subprocess.check_call(r"C:\Program Files\ChimeraX\bin\ChimeraX.exe emd_13737_normalized.mrc")     # Opening with a file
-        #subprocess.call(r"C:\Program Files\ChimeraX\bin\ChimeraX.exe")
-        #os.startfile(r"C:\Program Files\ChimeraX\bin\ChimeraX.exe")
-
-        # update: moved it to a separate file with exception handling.
-        # TODO: allow it to launch chimerax with a list of files
-        launch_chimerax()
 
     def placeholder_fxn(self, name):     # rename this variable to msg
         # prints message passed from signal, which can be custom set (currently just the name of the button)

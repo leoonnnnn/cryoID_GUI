@@ -34,6 +34,11 @@ python3 main_cryoID_developmental.py
     - change main_cryoID.py to main_cryoID_gui.py
 - displaying file tree in sidebar (only got it working in a separate file, still working on integrating it)
     - replace the checkboxes in the sidebar with the file tree. some functionality might change but should be pretty quick modifications
+- add shortcuts
+- launch chimerax with some custom default settings, like set models as spheres or ball and stick, or set transparency, so it's nice to look at out of the box
+    - or let users open stuff with a session file that has their preferred settings (like mouse settings too)
+    - also let users open the file explorer from the side bar, similar to vscode. Like just set a shortcut (shift+alt+R) and open file explorer from the current folder or the folder where the generated files are. Could also implement a file explorer side tab ilke VScode or Pycharm (I already have code from a tutorial that does that. it's the set_up_body function, still needs some tweaking to align it properly tho. But would need to code my own functions to select these files to be opened in chimerax. Actualyl could just display these files with 0 functionality, purely visual, and then the only function would be highlight/selecting files and then that adds it to the list of files to open in chimerax)
+- clean up the code. some stuff can be put in separate files as modules. and a lot of nonessential comments can be removed
 
 
-note to self: All my other developmental code is in C:\Users\noelu\Python Projects\PyQt GUI practice\QtDesigner_practice\draftGUI. There's a bunch of examples and other junk in there. Copy what's needed to here and make the final touches here. And then maybe copy it back over to that clusterfuck folder (just make a new folder under backups with the date as the name).
+note to self: All my other developmental code is in C:\Users\noelu\Python Projects\PyQt GUI practice\QtDesigner_practice\draftGUI. There's a bunch of examples and other junk in there. Copy what's needed to here and make the final touches here (edit: slightly cleaned up now, so edit it there and bring it over when done). And then maybe copy it back over to that clusterfuck folder (just make a new folder under backups with the date as the name).
