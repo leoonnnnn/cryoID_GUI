@@ -591,6 +591,16 @@ image-position: right; */</string>
    <widget class="QWidget" name="dockWidgetContents">
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Inputs</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QListWidget" name="file_list_widget_inputs"/>
+     </item>
+     <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>Results</string>
@@ -598,25 +608,7 @@ image-position: right; */</string>
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBox_6">
-       <property name="text">
-        <string>results_file1</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="checkBox_7">
-       <property name="text">
-        <string>results_file2</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="checkBox_8">
-       <property name="text">
-        <string>results_file3</string>
-       </property>
-      </widget>
+      <widget class="QListWidget" name="file_list_widget_results"/>
      </item>
      <item>
       <widget class="QPushButton" name="view_in_chimera_button">
@@ -634,73 +626,6 @@ image-position: right; */</string>
         <size>
          <width>20</width>
          <height>40</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </widget>
-  </widget>
-  <widget class="QDockWidget" name="dockWidget_2">
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(220, 220, 220);</string>
-   </property>
-   <attribute name="dockWidgetArea">
-    <number>1</number>
-   </attribute>
-   <widget class="QWidget" name="dockWidgetContents_2">
-    <layout class="QVBoxLayout" name="verticalLayout_4">
-     <item>
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>View MRCs</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="checkBox">
-       <property name="text">
-        <string>result1.mrc</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="checkBox_2">
-       <property name="text">
-        <string>result2.mrc</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="checkBox_3">
-       <property name="text">
-        <string>result3.mrc</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="checkBox_4">
-       <property name="text">
-        <string>result4.mrc</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="checkBox_5">
-       <property name="text">
-        <string>result5.mrc</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer_5">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>212</height>
         </size>
        </property>
       </spacer>
@@ -780,38 +705,5 @@ image-position: right; */</string>
  <resources>
   <include location="svg_assets/file_upload.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>actionMRCs</sender>
-   <signal>triggered()</signal>
-   <receiver>dockWidget_2</receiver>
-   <slot>show()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>66</x>
-     <y>410</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>dockWidget_2</sender>
-   <signal>topLevelChanged(bool)</signal>
-   <receiver>actionMRCs</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>66</x>
-     <y>410</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

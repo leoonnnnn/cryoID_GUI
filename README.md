@@ -15,9 +15,11 @@ python3 main_cryoID_developmental.py
     - currently only has a file upload icon svg
     - **file_upload.qrc** is just something generated in Designer to add the svg in
 - **chimerax_launcher.py** is imported as a module into main, but also works as a standalone script.
+- **misc_pdbs** is just for testing opening chimerax with files. will remove once finish implementing file fetching.
 
 ## notes about editing the GUI
 - To change buttons and other visual stuff about the GUI, edit the .ui file, and generate new python code with pyuic5.
+    - **change the last line in the generated .py file to "from svg_assets import file_upload_rc"** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; just add "from svg_assets " in front of "import file_upload_rc"
 - Then make any necessary changes in main_cryoID_developmental.py (such as updating button names if you changed them in Designer, attaching functions to buttons, etc.)
 - **DON'T directly edit the .py files generated from pyuic5**
     - well actually you can if you want, but your changes will get overwritten if you run pyuic5 again with the **same** output file name
@@ -30,10 +32,16 @@ python3 main_cryoID_developmental.py
 
 
 ## TODOs for myself
+- finish implementing file fetching, just list the input files and the output files (results)
+
 - maybe rename the files
     - change main_cryoID.py to main_cryoID_gui.py
-- displaying file tree in sidebar (only got it working in a separate file, still working on integrating it)
-    - replace the checkboxes in the sidebar with the file tree. some functionality might change but should be pretty quick modifications
+    - rename results to outputs?
+- add shortcuts
+- polish the look (aesthetics)
+- launch chimerax with some custom default settings, like set models as spheres or ball and stick, or set transparency, so it's nice to look at out of the box
+    - or let users open stuff with a session file that has their preferred settings (like mouse settings too)
+    - also let users open the file explorer from the side bar, similar to vscode. Like just set a shortcut (shift+alt+R) and open file explorer from the current folder or the folder where the generated files are. Could also implement a file explorer side tab ilke VScode or Pycharm (I already have code from a tutorial that does that. it's the set_up_body function, still needs some tweaking to align it properly tho. But would need to code my own functions to select these files to be opened in chimerax. Actualyl could just display these files with 0 functionality, purely visual, and then the only function would be highlight/selecting files and then that adds it to the list of files to open in chimerax)
+- clean up the code. some stuff can be put in separate files as modules. and a lot of nonessential comments can be removed
 
-
-note to self: All my other developmental code is in C:\Users\noelu\Python Projects\PyQt GUI practice\QtDesigner_practice\draftGUI. There's a bunch of examples and other junk in there. Copy what's needed to here and make the final touches here. And then maybe copy it back over to that clusterfuck folder (just make a new folder under backups with the date as the name).
+note to self: All my other developmental code is in C:\Users\noelu\Python Projects\PyQt GUI practice\QtDesigner_practice\draftGUI. There's a bunch of examples and other junk in there. Copy what's needed to here and make the final touches here (edit: slightly cleaned up now, so edit it there and bring it over when done). And then maybe copy it back over to that clusterfuck folder (just make a new folder under backups with the date as the name).

@@ -23,6 +23,10 @@ class MainWindow(qtw.QMainWindow):
         self.ui.setupUi(self)
         #self.resize(1200, 800)   # can resize here too
 
+        # self.input_files = []    # TODO
+        # self.result_files = []   # TODO
+        self.selected_files = []   # files selected from input and result files
+
         # select mrc file
         self.ui.browse_mrc_file_button.clicked.connect(self.SelectMRCfile)
 
@@ -38,10 +42,10 @@ class MainWindow(qtw.QMainWindow):
         # >>> stuff from OG cryoID <<<
         self.process = qtc.QProcess(self)   # QProcess object for external programs
 
-        self.ui.actionChimeraX.triggered.connect(self.open_chimerax)
-        self.ui.view_in_chimera_button.clicked.connect(self.open_chimerax)
-        #self.ui.checkBox.toggled.connect(self.open_chimerax)     # TODO: change this so that when toggled, it adds or removes the corresponding file from the list or queue of files to open in chimerax
-        self.ui.abort_button.clicked.connect(self.abortjob)
+        self.ui.actionChimeraX.triggered.connect(lambda: launch_chimerax(self.selected_files))
+        self.ui.view_in_chimera_button.clicked.connect(lambda: launch_chimerax(self.selected_files))
+
+        self.ui.abort_button.clicked.connect(self.abortjob)   # just do equivalent of ctrl+C in linux?
 
         # # testing new placeholder function (printing custom message when button is clicked)
         # self.ui.run_button.clicked.connect(lambda: self.placeholder_fxn('run button'))
@@ -51,8 +55,9 @@ class MainWindow(qtw.QMainWindow):
         self.ui.run_button.clicked.connect(self.placeholder_fxn_2)
         self.ui.abort_button.clicked.connect(self.placeholder_fxn_2)
 
+        # self.set_up_body()
+        self.fetch_files()
         # Your code ends here
-        #self.set_up_body()
         self.show()
 
         self.setStyleSheet("QToolTip { color: white; background-color: gray; border: 1px; }")
@@ -213,17 +218,6 @@ class MainWindow(qtw.QMainWindow):
             self.textedit.moveCursor(qtg.QTextCursor.Start)
             self.statusBar().showMessage(f'Editing {filename}')
 
-    def open_chimerax(self):
-        # 3 dif ways to open files (prob more)
-        #subprocess.check_call(r"C:\Program Files\ChimeraX\bin\ChimeraX.exe")        #further research needed to decide which to use
-        #subprocess.check_call(r"C:\Program Files\ChimeraX\bin\ChimeraX.exe emd_13737_normalized.mrc")     # Opening with a file
-        #subprocess.call(r"C:\Program Files\ChimeraX\bin\ChimeraX.exe")
-        #os.startfile(r"C:\Program Files\ChimeraX\bin\ChimeraX.exe")
-
-        # update: moved it to a separate file with exception handling.
-        # TODO: allow it to launch chimerax with a list of files
-        launch_chimerax()
-
     def placeholder_fxn(self, name):     # rename this variable to msg
         # prints message passed from signal, which can be custom set (currently just the name of the button)
         print(name)   # to pycharm command line
@@ -365,6 +359,33 @@ class MainWindow(qtw.QMainWindow):
         p = Path(path)
         self.set_new_tab(p)
 
+    # new functions
+    # Fetch files and display them
+    def fetch_files(self):
+        # Simulate fetching files from script
+        # Replace this logic with actual file fetching mechanism
+        files = ["misc_pdbs/all_unet_probs_as_coords_threshold_0_25.pdb",
+                 "misc_pdbs/meanshift_clusters_phosphate_threshold_0_25.pdb",
+                 "misc_pdbs/meanshift_clusters_sugar_threshold_0_25.pdb"]
+
+        # Clear existing items
+        self.ui.file_list_widget_results.clear()
+        self.selected_files.clear()
+
+        # Add files to list widget with checkboxes
+        for file in files:
+            checkbox = qtw.QCheckBox(file)
+            item = qtw.QListWidgetItem()
+            self.ui.file_list_widget_results.addItem(item)
+            self.ui.file_list_widget_results.setItemWidget(item, checkbox)
+            checkbox.stateChanged.connect(lambda state, file=file: self.update_selected_files(state, file))
+
+    # Add files to selected files list when checked, and remove when unchecked
+    def update_selected_files(self, state, file):
+        if state == 2:  # Checked
+            self.selected_files.append(file)
+        elif state == 0:  # Unchecked
+            self.selected_files.remove(file)
 
 if __name__ == '__main__':
     app = qtw.QApplication(sys.argv)

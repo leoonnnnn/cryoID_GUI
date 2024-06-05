@@ -32,7 +32,7 @@ def find_chimerax():
     return None
 
 # Function for launching ChimeraX
-def launch_chimerax():
+def launch_chimerax(files=None):
     # Find ChimeraX executable
     chimerax_path = find_chimerax()
     if chimerax_path is None:
@@ -42,13 +42,23 @@ def launch_chimerax():
     # Command to launch ChimeraX
     command = [chimerax_path]
 
+    # Append files to the command if provided
+    if files:
+        command.extend(files)
+
     try:
         # Launch ChimeraX
-        subprocess.Popen(command)          # need to read more to see if call, check_call, or Popen is best for our use case
+        subprocess.Popen(command)          # NOTE: need to read more to see if call, check_call, or Popen is best for our use case
         print("ChimeraX launched successfully.")
+        # print("launched with these files: ", command[1::])    # for debugging
     except Exception as e:
         print("Error launching ChimeraX:", e)
 
 if __name__ == "__main__":
     # Launch ChimeraX
+    # Example usage(s):
+    #   no files
     launch_chimerax()
+    #   with files
+    files_to_open = [r"C:\Users\noelu\BE 177A Capstone\CryoREAD\zzzz_SANDBOX\cryoRead_files\4_26_24\Files for Qibo\clustering_results\all_points_threshold_0_5.pdb", r"C:\Users\noelu\BE 177A Capstone\CryoREAD\zzzz_SANDBOX\cryoRead_files\4_26_24\Files for Qibo\clustering_results\meanshift_clusters_threshold_0_5.pdb"]
+    launch_chimerax(files_to_open)
