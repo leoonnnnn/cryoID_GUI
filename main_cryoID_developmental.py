@@ -4,17 +4,14 @@ from pathlib import Path
 from PyQt5 import QtWidgets as qtw
 from PyQt5 import QtCore as qtc
 from PyQt5 import QtGui as qtg
-from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox     # might not need this bc of line 4, TODO: clean up imports
 from PyQt5.QtCore import QTextCodec
 codec = QTextCodec.codecForName("UTF-8")
 
-#from cryoID_v2_1 import Ui_cryoID
-#from cryoID_v2_2 import Ui_cryoID
-#from cryoID_v2_3 import Ui_cryoID
-#from cryoID_v2_4 import Ui_cryoID
-#from cryoID_v2_exp import Ui_cryoID
-from cryoID_v2_exp_FPV import Ui_cryoID
+from cryoID_v2_exp_FINALPRESVERSION import Ui_cryoID
 # alternatively for the import, could skip the python file and just use the ui file (check tutorial for steps)
+
+from chimerax_launcher import launch_chimerax
 
 
 class MainWindow(qtw.QMainWindow):
@@ -40,11 +37,10 @@ class MainWindow(qtw.QMainWindow):
 
         # >>> stuff from OG cryoID <<<
         self.process = qtc.QProcess(self)   # QProcess object for external programs
-        # dont need the 2 scripts that came with old cryoID anymore bc our stuff is dif
-        #self.ui.gen_queries_button.clicked.connect(self.get_queries)
-        #self.ui.search_pool_button.clicked.connect(self.search_pool)
+
         self.ui.actionChimeraX.triggered.connect(self.open_chimerax)
-        self.ui.checkBox.toggled.connect(self.open_chimerax)
+        self.ui.view_in_chimera_button.clicked.connect(self.open_chimerax)
+        #self.ui.checkBox.toggled.connect(self.open_chimerax)     # TODO: change this so that when toggled, it adds or removes the corresponding file from the list or queue of files to open in chimerax
         self.ui.abort_button.clicked.connect(self.abortjob)
 
         # # testing new placeholder function (printing custom message when button is clicked)
@@ -218,10 +214,15 @@ class MainWindow(qtw.QMainWindow):
             self.statusBar().showMessage(f'Editing {filename}')
 
     def open_chimerax(self):
+        # 3 dif ways to open files (prob more)
         #subprocess.check_call(r"C:\Program Files\ChimeraX\bin\ChimeraX.exe")        #further research needed to decide which to use
-        subprocess.check_call(r"C:\Program Files\ChimeraX\bin\ChimeraX.exe emd_13737_normalized.mrc")      #ok shit works
+        #subprocess.check_call(r"C:\Program Files\ChimeraX\bin\ChimeraX.exe emd_13737_normalized.mrc")     # Opening with a file
         #subprocess.call(r"C:\Program Files\ChimeraX\bin\ChimeraX.exe")
         #os.startfile(r"C:\Program Files\ChimeraX\bin\ChimeraX.exe")
+
+        # update: moved it to a separate file with exception handling.
+        # TODO: allow it to launch chimerax with a list of files
+        launch_chimerax()
 
     def placeholder_fxn(self, name):     # rename this variable to msg
         # prints message passed from signal, which can be custom set (currently just the name of the button)
@@ -235,6 +236,8 @@ class MainWindow(qtw.QMainWindow):
         print(senderName)   # to pycharm command line
         self.statusBar().showMessage(senderName + " clicked", 2000)    # to the gui
 
+    # For displaying file tree
+    # this one still needs work, prob shouldnt do it like this, delete this later
     def set_up_body(self):
 
         # Body
