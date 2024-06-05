@@ -1,10 +1,10 @@
-import sys, os
+import sys
+import os
 import subprocess
 from pathlib import Path
 from PyQt5 import QtWidgets as qtw
 from PyQt5 import QtCore as qtc
 from PyQt5 import QtGui as qtg
-from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog, QMessageBox     # might not need this bc of line 4, TODO: clean up imports
 from PyQt5.QtCore import QTextCodec
 codec = QTextCodec.codecForName("UTF-8")
 
@@ -63,7 +63,7 @@ class MainWindow(qtw.QMainWindow):
 
     def SelectMRCfile(self):
         try:
-            fname = QFileDialog.getOpenFileName(self, 'Select file', '.', 'density map(*.mrc *.cpp4)')
+            fname = qtw.QFileDialog.getOpenFileName(self, 'Select file', '.', 'density map(*.mrc *.cpp4)')
             fname_rel = os.path.relpath(fname[0], os.getcwd())
             self.ui.mrc_file_editbox.setText(fname_rel)
             self.statusBar().showMessage(f'{fname_rel}', 2000)
@@ -73,7 +73,7 @@ class MainWindow(qtw.QMainWindow):
 
     def SelectQueryinput(self):
         try:
-            fname = QFileDialog.getOpenFileName(self, 'Select file', '.', 'query file(*.fasta *.pdb)')
+            fname = qtw.QFileDialog.getOpenFileName(self, 'Select file', '.', 'query file(*.fasta *.pdb)')
             fname_rel = os.path.relpath(fname[0], os.getcwd())
             self.ui.query_file_editbox.setText(fname_rel)
             self.statusBar().showMessage(f'{fname_rel}', 2000)
@@ -83,7 +83,7 @@ class MainWindow(qtw.QMainWindow):
 
     def SelectSeqPool(self):
         try:
-            fname = QFileDialog.getOpenFileName(self, 'Select file', '.', 'Protein pool file(*.fasta *.txt *.list)')
+            fname = qtw.QFileDialog.getOpenFileName(self, 'Select file', '.', 'Protein pool file(*.fasta *.txt *.list)')
             fname_rel = os.path.relpath(fname[0], os.getcwd())
             self.ui.pool_file_editbox.setText(fname_rel)
         except ValueError:
